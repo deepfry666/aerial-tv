@@ -69,9 +69,9 @@ The menus on Chinese firmware are in Chinese; their names are in brackets.
 | **OPPO (S1 included)** | Settings (设置) → System (系统) → About (关于本机) → Model (设备型号), press Up Up Right Right, then OK. Then Settings → System → Developer options (开发者选项): turn on USB debugging (USB 调试). The IP address is at the bottom of Settings → Network → the connected network |
 | **Other Android TVs** | Settings → Device Preferences → About → press Build 7 times, then turn on USB debugging in Developer options |
 
-The TV's IP address is under Settings → Network → the connected network. The first time you connect, the TV asks whether to allow debugging: choose Always allow.
+The TV's IP address is under Settings → Network → the connected network. The first time you connect, a TV with a USB debugging switch asks whether to allow debugging: choose Always allow. TVs that only offer Wireless debugging show no such prompt; see the next paragraph.
 
-**Android 11 and later pair before connecting** (Sony BRAVIA on Android 14, Google TV and others; #747): their "Wireless debugging" is not the old plaintext port, so `adb connect <IP>:5555` alone does not work. On the TV open Settings → System → Developer options → **Wireless debugging** → **Pair device with pairing code**, then enter the IP:port from the pairing screen and the 6-digit code on the computer:
+**TVs that only offer Wireless debugging (no USB/network debugging toggle) on Android 11 and later pair before connecting** (such as Sony BRAVIA on Android 14; #747): these TVs have no plain port, so `adb connect <IP>:5555` alone does not work. On the TV open Settings → System → Developer options → **Wireless debugging** → **Pair device with pairing code**, then enter the IP:port from the pairing screen and the 6-digit code on the computer:
 
 ```bash
 adb pair 192.168.1.20:37115   # the port on the TV's pairing screen (example; use the TV's)
@@ -122,7 +122,9 @@ Then press Home: if Android asks which app to use, choose Aerial, then Always, a
 curl -fsSL https://aerial.qust.me/install.sh | KEEP_ADB=1 TV=192.168.1.20 bash
 ```
 
-**By hand**: download [aerial-standard.apk](https://aerial.qust.me/download/aerial-standard.apk), then (on Android 11+ wireless debugging, pair as in step 1 first and use the IP:port from the main Wireless debugging screen on the first line; the rest is the same):
+On a TV that only offers Wireless debugging (step 1), `export ADB_PAIR=<pairing-screen IP:port> ADB_CODE=<6-digit code> ADB_CONNECT=<main-screen IP:port>` before running that command.
+
+**By hand**: download [aerial-standard.apk](https://aerial.qust.me/download/aerial-standard.apk), then (on a TV that only offers Wireless debugging, pair as in step 1 and run `adb tcpip 5555` once connected, so the first line below is 5555; without that, use the IP:port from the main Wireless debugging screen on the first line; the rest is the same):
 
 ```bash
 adb connect 192.168.1.20:5555
