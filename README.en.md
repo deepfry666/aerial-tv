@@ -79,7 +79,7 @@ adb pair 192.168.1.20:37115   # the port on the TV's pairing screen (example; us
 adb connect 192.168.1.20:39201   # the other IP:port, on the main Wireless debugging screen (example)
 ```
 
-Then install as usual. To use plain `<TV-IP>:5555` from now on, run `adb tcpip 5555` once connected; a computer that has paired does not pair again. `install.sh` and the agent in the [install guide](site/en/agent.md) walk through this step.
+Then install as usual. To use plain `<TV-IP>:5555` from now on, run `adb tcpip 5555` once connected; a computer that has paired does not pair again. `install.sh` and the agent in the [install guide](site/en/agent.md) walk through this step. Some TCL firmwares (Q10M, Q10L, Crane 6 Ultra and similar) have no pairing-code entry at all; there, authorize once over a USB cable as in the by-brand guide below.
 
 A more detailed guide by brand, including TVs that cannot open ADB, is in [docs/devices/adb-by-brand.md](docs/devices/adb-by-brand.md) (Chinese).
 
@@ -122,9 +122,12 @@ Then press Home: if Android asks which app to use, choose Aerial, then Always, a
 curl -fsSL https://aerial.qust.me/install.sh | KEEP_ADB=1 TV=192.168.1.20 bash
 ```
 
-On a TV that only offers Wireless debugging (step 1), `export ADB_PAIR=<pairing-screen IP:port> ADB_CODE=<6-digit code> ADB_CONNECT=<main-screen IP:port>` before running that command.
+On a TV that only offers Wireless debugging (step 1), `export ADB_PAIR=<pairing-screen IP:port> ADB_CODE=<6-digit code> ADB_CONNECT=<main-screen IP:port>` before running that command; one with no pairing-code entry (TCL Q10M, Q10L, Crane 6 Ultra and similar) first follows the [by-brand guide](docs/devices/adb-by-brand.md), authorizing once over a USB cable and running `adb tcpip 5555`, then runs the command as usual.
 
-**By hand**: download [aerial-standard.apk](https://aerial.qust.me/download/aerial-standard.apk), then (on a TV that only offers Wireless debugging, pair as in step 1 and run `adb tcpip 5555` once connected, so the first line below is 5555; without that, use the IP:port from the main Wireless debugging screen on the first line; the rest is the same):
+**By hand**: download [aerial-standard.apk](https://aerial.qust.me/download/aerial-standard.apk). On a TV that only offers Wireless debugging (step 1), do one of these first, then run the commands:
+
+- **With a pairing-code entry** (Sony BRAVIA on Android 14 and similar): pair as in step 1 and run `adb tcpip 5555` once connected, so the first line of the commands is 5555; without that, use the IP:port from the main Wireless debugging screen on the first line; the rest is the same.
+- **Without a pairing-code entry** (TCL Q10M, Q10L, Crane 6 Ultra and similar): follow the [by-brand guide](docs/devices/adb-by-brand.md) to connect the TV to a computer with a USB cable, then run `adb tcpip 5555` once authorized; until then, the first line's `adb connect <TV-IP>:5555` does not work.
 
 ```bash
 adb connect 192.168.1.20:5555
