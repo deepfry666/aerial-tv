@@ -9,7 +9,7 @@
 A home screen modeled on Apple TV, with no ads and no recommendation feeds: just your apps, your wallpaper and aerial screensavers.<br>
 Made for Xiaomi, TCL, Skyworth, Sony and other TVs sold in China, and runs on boxes and projectors too. It starts at boot and survives standby.
 
-[中文](README.md) · **English**
+Documentation: [中文](README.md) · **English**
 
 <a href="https://aerial.qust.me/en/"><img alt="Website" src="https://img.shields.io/badge/Website-1f6feb?style=for-the-badge&logo=safari&logoColor=white"></a>
 <a href="https://github.com/pengchujin/aerial-tv/releases/latest"><img alt="Download APK" src="https://img.shields.io/badge/Download%20APK-34a853?style=for-the-badge&logo=android&logoColor=white"></a>
@@ -27,6 +27,10 @@ Made for Xiaomi, TCL, Skyworth, Sony and other TVs sold in China, and runs on bo
 | <img src="site/img/stock-xiaomi.jpg" alt="The stock home screen, covered in show recommendations and membership badges"> | <img src="site/img/home.jpg" alt="Aerial's home screen"> |
 
 </div>
+
+## Interface languages
+
+Aerial (standard / guard) and Aerial Lite include Chinese, English, Russian (Русский), Ukrainian (Українська), and Kazakh (Қазақша) interface translations, following the TV’s system language. The 中文 / English links above select the README language; they are not a list of the app’s supported languages.
 
 ## Features
 

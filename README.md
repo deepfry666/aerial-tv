@@ -9,7 +9,7 @@
 参照 Apple TV 做的 Android TV 桌面：没有广告，没有推荐流，只有你的 App、壁纸和航拍屏保。<br>
 适合小米、TCL、创维、索尼等国产电视，也能装在盒子和投影仪上。开机自动进入，待机也不会被清理。
 
-**中文** · [English](README.en.md)
+文档：**中文** · [English](README.en.md)
 
 <a href="https://aerial.qust.me"><img alt="官网" src="https://img.shields.io/badge/%E5%AE%98%E7%BD%91-1f6feb?style=for-the-badge&logo=safari&logoColor=white"></a>
 <a href="https://github.com/pengchujin/aerial-tv/releases/latest"><img alt="下载 APK" src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%20APK-34a853?style=for-the-badge&logo=android&logoColor=white"></a>
@@ -27,6 +27,10 @@
 | <img src="site/img/stock-xiaomi.jpg" alt="电视自带的桌面：满屏剧集推荐、会员和限免角标"> | <img src="site/img/home.jpg" alt="Aerial 首页"> |
 
 </div>
+
+## 界面语言
+
+Aerial（standard / guard）和 Aerial Lite 的界面已提供中文、英语、俄语（Русский）、乌克兰语（Українська）和哈萨克语（Қазақша），跟随电视的系统语言。页首的「中文 / English」只是 README 的语言选项，不代表应用只支持这两种语言。
 
 ## 功能
 
