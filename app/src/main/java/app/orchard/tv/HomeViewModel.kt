@@ -127,6 +127,17 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     /** Home is the resumed activity: the aerial wallpaper only moves while it is. */
     var resumed by mutableStateOf(false)
 
+    /**
+     * Paused only by Home's bounce on Xiaomi (HomeGuardService.backOnPause), and being brought
+     * straight back: the wallpaper's film plays on as if still resumed. Let go, it left the window
+     * black where the film showed through until Aerial was back 150 ms later, and then started over
+     * (MiTV-MFTR0, Android 14).
+     */
+    var homeBounce by mutableStateOf(false)
+
+    /** In front for the wallpaper's film: resumed, or only bouncing off Home (homeBounce). */
+    val filmFront: Boolean get() = resumed || homeBounce
+
     /** Aerial's screensaver is up (see MainActivity's idle timer). */
     var screensaverVisible by mutableStateOf(false)
     val screensaverSkips = ScreensaverSkips()
@@ -164,6 +175,14 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch { snapshotFlow { SourceLooks.all }.drop(1).collect { if (loaded) arrange() } }
         // An app renamed on the phone page.
         viewModelScope.launch { snapshotFlow { AppNames.all }.drop(1).collect { if (loaded) arrange() } }
+        viewModelScope.launch { snapshotFlow { AerialSettings.previewApps }.drop(1).collect { if (loaded) arrange() } }
+        // Another number of apps a row: the artwork again if four a row wants it larger, else
+        // every face at the new size, before the tiles draw them.
+        viewModelScope.launch {
+            snapshotFlow { AerialSettings.homeColumns }.drop(1).collect {
+                if (TileArtFactory.fitColumns()) reload() else if (loaded) prepareFaces()
+            }
+        }
     }
 
     /**
@@ -268,7 +287,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
      */
     private fun prepareFaces() {
         val shown = apps + folderApps.values.flatten()
-        val row = apps.take(5)
+        val row = apps.take(AerialSettings.homeColumns)
         facesJob?.cancel()
         facesJob = viewModelScope.launch {
             val started = SystemClock.uptimeMillis()
@@ -320,7 +339,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
                 ?: TileArtFactory.forFolder(shown).also { folderArt[folder.id] = shown to it }
             folderEntry(folder, art)
         }
-        apps = arrangement.home
+        apps = AerialSettings.previewApps.takeIf { it > 0 }?.let { arrangement.home.take(it) } ?: arrangement.home
         AppCatalog.home = arrangement.home
         AppCatalog.folderApps = arrangement.folders
         AppCatalog.hiddenApps = arrangement.hidden
